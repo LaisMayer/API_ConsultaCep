@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta CEP Automática</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <img src="ifprlogo.png" alt="Logo" class="logo">
+        <h1>Consulta de CEP</h1>
+
+        <form id="cep-form" autocomplete="off">
+            <label for="cep">CEP</label>
+            <input type="text" id="cep" maxlength="9" required>
+
+            <label for="logradouro">Logradouro</label>
+            <input type="text" id="logradouro" required>
+
+            <label for="complemento">Complemento</label>
+            <input type="text" id="complemento">
+
+            <label for="bairro">Bairro</label>
+            <input type="text" id="bairro" required>
+
+            <label for="localidade">Cidade</label>
+            <input type="text" id="localidade" required>
+
+            <label for="uf">UF</label>
+            <input type="text" id="uf" maxlength="2" required>
+
+
+            <button type="submit">Enviar</button>
+        </form>
+
+        <div id="erro" class="hidden"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
