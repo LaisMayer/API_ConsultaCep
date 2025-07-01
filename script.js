@@ -24,6 +24,7 @@ function buscarEndereco(cep) {
       document.getElementById('bairro').value = data.bairro || '';
       document.getElementById('localidade').value = data.localidade || '';
       document.getElementById('uf').value = data.uf || '';
+      salvarNoLocalStorage(data);
     })
     .catch(() => {
       mostrarErro('Erro ao consultar o CEP.');
@@ -40,3 +41,31 @@ function mostrarErro(msg) {
   document.getElementById('localidade').value = '';
   document.getElementById('uf').value = '';
 }
+
+function salvarNoLocalStorage(data) {
+  const endereco = {
+    nome: document.getElementById('nome').value || '',
+    cep: document.getElementById('cep').value || '',
+    logradouro: data.logradouro || '',
+    bairro: data.bairro || '',
+    localidade: data.localidade || '',
+    uf: data.uf || ''
+  };
+  
+  localStorage.setItem('endereco', JSON.stringify(endereco)); 
+}
+
+function carregarEnderecoDoLocalStorage() {
+  const enderecoSalvo = JSON.parse(localStorage.getItem('endereco'));
+
+  if (enderecoSalvo) {
+    document.getElementById('nome').value = enderecoSalvo.nome || '';
+    document.getElementById('cep').value = enderecoSalvo.cep || '';
+    document.getElementById('logradouro').value = enderecoSalvo.logradouro || '';
+    document.getElementById('bairro').value = enderecoSalvo.bairro || '';
+    document.getElementById('localidade').value = enderecoSalvo.localidade || '';
+    document.getElementById('uf').value = enderecoSalvo.uf || '';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', carregarEnderecoDoLocalStorage);
