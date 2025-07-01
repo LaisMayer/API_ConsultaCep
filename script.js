@@ -35,7 +35,7 @@ function mostrarErro(msg) {
   erro.textContent = msg;
   erro.classList.remove('hidden');
 
- 
+
   document.getElementById('logradouro').value = '';
   document.getElementById('bairro').value = '';
   document.getElementById('localidade').value = '';
@@ -43,7 +43,7 @@ function mostrarErro(msg) {
 }
 
 function salvarNoLocalStorage(data) {
-  const endereco = {
+  const novoEndereco = {
     nome: document.getElementById('nome').value || '',
     cep: document.getElementById('cep').value || '',
     logradouro: data.logradouro || '',
@@ -51,8 +51,36 @@ function salvarNoLocalStorage(data) {
     localidade: data.localidade || '',
     uf: data.uf || ''
   };
-  
-  localStorage.setItem('endereco', JSON.stringify(endereco)); 
+
+  let enderecos = JSON.parse(localStorage.getItem('enderecos')) || [];
+  enderecos.push(novoEndereco);
+  localStorage.setItem('enderecos', JSON.stringify(enderecos));
+}
+function listarEnderecos() {
+  const listaContainer = document.getElementById('lista-enderecos');
+  listaContainer.innerHTML = ''; // Limpa a lista antiga
+  listaContainer.classList.remove('hidden');
+
+  let enderecos = JSON.parse(localStorage.getItem('enderecos')) || [];
+
+  if (enderecos.length === 0) {
+    listaContainer.textContent = 'Nenhum endereço salvo.';
+    return;
+  }
+
+  enderecos.forEach((endereco, index) => {
+    const div = document.createElement('div');
+    div.className = 'endereco-card';
+    div.innerHTML = `
+      <strong>${index + 1}) ${endereco.nome}</strong><br>
+      CEP: ${endereco.cep}<br>
+      Logradouro: ${endereco.logradouro}<br>
+      Bairro: ${endereco.bairro}<br>
+      Cidade: ${endereco.localidade}<br>
+      Estado: ${endereco.uf}<br>
+    `;
+    listaContainer.appendChild(div);
+  });
 }
 
 function carregarEnderecoDoLocalStorage() {
@@ -69,3 +97,4 @@ function carregarEnderecoDoLocalStorage() {
 }
 
 document.addEventListener('DOMContentLoaded', carregarEnderecoDoLocalStorage);
+document.getElementById('btn-listar').addEventListener('click', listarEnderecos);
